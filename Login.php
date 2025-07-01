@@ -5,7 +5,7 @@ $showError = false;
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     include 'partials/_dbconnect.php';
 
-  
+
     $username = $_POST["username"];
     $password = $_POST["password"];
 
@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   </head>
   <body>
-    <<?php require 'partials/_nav.php' ?>
+    <?php require 'partials/_nav.php' ?>
     <?php
     if($login){
     echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
