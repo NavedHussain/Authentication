@@ -1,36 +1,31 @@
 <?php
-// error_reporting(E_ALL);
-  $showAlert = false;
-  $showError = false;
-if($_SERVER["REQUEST_METHOD"] == "POST" ){
-  include 'partials/_dbconnect.php';
-  $usename = $_POST["username"];
-  $password = $_POST["password"];
-  $cpassword = $_POST["cpassword"];
-  $age       = $_POST["age"];
-  $exists=false;
-  if (($password == $cpassword) && $exists == false){
-  // if(($password == $cpassword) && $exists == false){
+$showAlert = false;
+$showError = false;
 
-    // $sql = "INSERT INTO 'users' ('username', 'password' , 'age', 'dt')
-    //  VALUES ('$username', '$password', current_timestamp())";
-    $sql = "INSERT INTO users (username, `password`, age, dt)
-            VALUES ('$username', '$password', '$age', current_timestamp())";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include 'partials/_dbconnect.php';
 
+    $username  = $_POST["username"];
+    $password  = $_POST["password"];
+    $cpassword = $_POST["cpassword"];
+    $age       = $_POST["age"];
 
-   $result = mysqli_query($conn, $sql);
-      if($result){
-        $showAlert = true;
-      }
-  }
+    if ($password === $cpassword) {
+        $sql = "INSERT INTO `users` (`username`, `password`, `age`, `dt`)
+                VALUES ('$username', '$password', '$age', current_timestamp());";
 
-  else {
-    $showError = "Password do not match";
-  }
+        $result = mysqli_query($conn, $sql);
 
-} 
-
- ?>
+        if ($result) {
+            $showAlert = true;
+        } else {
+            $showError = "Database error: " . mysqli_error($conn);
+        }
+    } else {
+        $showError = "Passwords do not match.";
+    }
+}
+?>
 
 
 <!Doctype html>
