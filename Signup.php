@@ -12,11 +12,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ){
   if (($password == $cpassword) && $exists == false){
   // if(($password == $cpassword) && $exists == false){
 
+    // $sql = "INSERT INTO 'users' ('username', 'password' , 'age', 'dt')
+    //  VALUES ('$username', '$password', current_timestamp())";
+    $sql = "INSERT INTO users (username, `password`, age, dt)
+            VALUES ('$username', '$password', '$age', current_timestamp())";
 
-    $sql = "INSERT INTO 'users' ('username', 'password', 'cpassword' , 'age', 'dt')
-     VALUES ('$username', '$password', current_timestamp())";
 
-      $result = mysqli_query($conn,$sql);
+   $result = mysqli_query($conn, $sql);
       if($result){
         $showAlert = true;
       }
@@ -26,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ){
     $showError = "Password do not match";
   }
 
-}
+} 
 
  ?>
 
