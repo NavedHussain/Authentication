@@ -27,6 +27,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<?php
+function sanitize($data) {
+  return htmlspecialchars(stripslashes(trim($data)));
+}
+
+$userErr = $ageErr = "";
+$username = $age = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $username = sanitize($_POST["username"]);
+  $age = sanitize($_POST["age"]);
+
+  // Username validation
+  if (empty($username)) {
+    $userErr = "Username is required.";
+  } elseif (!preg_match("/^[A-Za-z0-9_]+$/", $username)) {
+    $userErr = "Only letters, numbers, and underscores allowed.In username";
+  } elseif (strlen($username) < 3 || strlen($username) > 15) {
+    $userErr = "Username must be 3–15 characters long.";
+  }
+
+  // Age validation
+  if (empty($age)) {
+    $ageErr = "Age is required.";
+  } elseif (!filter_var($age, FILTER_VALIDATE_INT, ["options" => ["min_range" => 16, "max_range" => 120]])) {
+    $ageErr = "Age must be an integer between 16 and 120.";
+  }
+
+  // If no errors, proceed
+  if (empty($userErr) && empty($ageErr)) {
+    echo "Success! Username: $username, Age: $age";
+    // TODO: Insert into DB, etc.
+  } else {
+    echo $userErr . "<br>" . $ageErr;
+  }
+}
+?>
+
+
 
 <!Doctype html>
 <html lang="en">
@@ -77,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="password" class="form-control" id="cpassword" name="cpassword">
         <div id="emailHelp" class="form-text">Make Sure to tupe the same password.</div>
       </div>
-      
+
       <div class="from-group col-md-6">
         <label for="age" class="form-label">Age</label>
         <input type="number" class="form-control" id="age" name="age">
